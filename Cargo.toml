@@ -1,0 +1,19 @@
+[package]
+name = "conky-calendar"
+version = "0.1.0"
+authors = ["Michael Noguera <44954999+michaelnoguera@users.noreply.github.com>"]
+edition = "2018"
+description = "Conky-Calendar prints a simple calendar with conky format strings embedded."
+repository = "https://github.com/michaelnoguera/conky-calendar"
+license = "MIT"
+
+[dependencies]
+"chrono" = "0.4"
+"clap" = "~2.27.0"
+
+[package.metadata.deb]
+maintainer = "Michael Noguera <44954999+michaelnoguera@users.noreply.github.com>"
+copyright = "2020, Michael Noguera <44954999+michaelnoguera@users.noreply.github.com>"
+license-file = ["LICENSE", "4"]
+extended-description = "Conky-Calendar prints a simple calendar with conky format strings embedded."
+depends = "$auto"
