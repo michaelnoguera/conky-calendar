@@ -91,26 +91,43 @@ fn main() {
                 .value_name("COLOR")
                 .takes_value(true),
         )
+        .arg(
+            Arg::with_name("monday-as-first")
+                .short("m")
+                .long("monday-as-first")
+                .help("Use Monday as first day of the week")
+         )
         .get_matches();
 
     let now = Local::now(); // current date & time via chrono
 
+    let labels = match matches.is_present("monday-as-first") {
+        true => String::from("Mo Tu We Th Fr Sa Su"),
+        false => String::from("Su Mo Tu We Th Fr Sa"),
+    };
+
     // weekday labels
     if matches.is_present("label-color") {
         println!(
-            "${{color #{color}}}{:^20}\nSu Mo Tu We Th Fr Sa${{color}}",
+            "${{color #{color}}}{:^20}\n{}${{color}}",
             now.format("%B %Y"),
+            labels,
             color = matches.value_of("label-color").unwrap()
         );
     } else {
-        println!("{:^20}\nSu Mo Tu We Th Fr Sa", now.format("%B %Y"));
+        println!("{:^20}\n{}", now.format("%B %Y"), labels);
     }
 
     // calculate where the numbers go, add spaces to offset the first day
     let first_day_of_month = NaiveDate::from_ymd(now.year(), now.month(), 1);
 
+    let initial_offset = match matches.is_present("monday-as-first") {
+        true => first_day_of_month.weekday().num_days_from_monday(),
+        false => first_day_of_month.weekday().num_days_from_sunday(),
+    };
+
     let mut col = 0;
-    for _ in 0..first_day_of_month.weekday().num_days_from_sunday() {
+    for _ in 0..initial_offset {
         print!("{:^3}", "");
         col = col + 1;
     }
