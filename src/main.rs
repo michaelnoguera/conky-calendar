@@ -126,6 +126,11 @@ fn main() {
         false => first_day_of_month.weekday().num_days_from_sunday(),
     };
 
+    let (saturday_day, sunday_day) = match matches.is_present("monday-as-first") {
+		true => (5, 6),
+		false => (6, 0),
+    };
+
     let mut col = 0;
     for _ in 0..initial_offset {
         print!("{:^3}", "");
@@ -144,7 +149,7 @@ fn main() {
                 day,
                 color = matches.value_of("today-color").unwrap()
             );
-        } else if matches.is_present("weekend-color") && (col == 0 || col == 6) { // color weekends if needed
+        } else if matches.is_present("weekend-color") && (col == saturday_day || col == sunday_day) { // color weekends if needed
             print!(
                 "${{color #{color}}}{:^3}${{color}}",
                 day,
