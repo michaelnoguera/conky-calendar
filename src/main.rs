@@ -127,8 +127,8 @@ fn main() {
     };
 
     let (saturday_day, sunday_day) = match matches.is_present("monday-as-first") {
-		true => (5, 6),
-		false => (6, 0),
+        true => (5, 6),
+        false => (6, 0),
     };
 
     let mut col = 0;
