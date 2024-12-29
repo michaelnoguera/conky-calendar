@@ -50,7 +50,7 @@ fn days_in_month<T: Datelike>(date: T) -> u32 {
 //    let goto: &str = if let Some(x) = x_coord {format!("${{goto {x}}}}", x = x)} else {""};
 //    let color_pre: &str = if let Some(x) = color {format!("${{color #{color}}}", color = x)} else {""};
 //    let color_post: &str = if let Some(x) = color {"${{color}}"} else {""};
-//    println!("{:?}", [goto, color_pre, output, color_post].concat()); 
+//    println!("{:?}", [goto, color_pre, output, color_post].concat());
 //}
 
 fn main() {
@@ -95,8 +95,8 @@ fn main() {
             Arg::with_name("monday-as-first")
                 .short("m")
                 .long("monday-as-first")
-                .help("Use Monday as first day of the week")
-         )
+                .help("Use Monday as first day of the week"),
+        )
         .get_matches();
 
     let now = Local::now(); // current date & time via chrono
@@ -139,29 +139,35 @@ fn main() {
 
     // output days, colorized if requested
     for day in 1..=days_in_month(now) {
-        if col > 6 { // col 0 is sunday, 6 is saturday, etc.
+        if col > 6 {
+            // col 0 is sunday, 6 is saturday, etc.
             println!();
             col = 0;
         };
-        if matches.is_present("today-color") && day == now.day() { // color today if needed, overrides later options
+        if matches.is_present("today-color") && day == now.day() {
+            // color today if needed, overrides later options
             print!(
                 "${{color #{color}}}{:^3}${{color}}",
                 day,
                 color = matches.value_of("today-color").unwrap()
             );
-        } else if matches.is_present("weekend-color") && (col == saturday_day || col == sunday_day) { // color weekends if needed
+        } else if matches.is_present("weekend-color") && (col == saturday_day || col == sunday_day)
+        {
+            // color weekends if needed
             print!(
                 "${{color #{color}}}{:^3}${{color}}",
                 day,
                 color = matches.value_of("weekend-color").unwrap()
             );
-        } else if matches.is_present("day-color") { // generic day color if specified
+        } else if matches.is_present("day-color") {
+            // generic day color if specified
             print!(
                 "${{color #{color}}}{:^3}${{color}}",
                 day,
                 color = matches.value_of("day-color").unwrap()
             );
-        } else { // default to no format strings
+        } else {
+            // default to no format strings
             print!("{:^3}", day);
         }
         col = col + 1;
