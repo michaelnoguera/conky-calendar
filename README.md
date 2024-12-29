@@ -31,6 +31,7 @@ USAGE:
 
 FLAGS:
     -h, --help       Prints help information
+    -m, --monday-as-first    Use Monday as first day of the week
     -V, --version    Prints version information
 
 OPTIONS:
