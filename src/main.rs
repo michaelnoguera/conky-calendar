@@ -56,7 +56,7 @@ fn days_in_month<T: Datelike>(date: T) -> u32 {
 fn main() {
     //use clap to get command line args
     let matches = App::new("conky-calendar")
-        .version("1.0")
+        .version(clap::crate_version!())
         .author("by Michael Noguera")
         .about("Prints a simple calendar with conky format strings embedded.")
         .arg(
